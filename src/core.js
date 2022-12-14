@@ -1,75 +1,54 @@
 //Напишите функцию, которая проверяет, является ли число целым используя побитовые операторы
 function isInteger(n) {
-    return((n ^ 0) === n)
+    if (n === (n | 1)) return true;
+    else return false;
 }
 
 //Напишите функцию, которая возвращает массив четных чисел от 2 до 20 включительно
 function even() {
-    let mass=[];
-    let i=2;
-    while(i<=20){
-        mass.push(i);
-        i+=2;
-    }
-    return mass;
-
+    let arr = [];
+    for (let i = 2; i <= 20; i += 2) arr.push(i);
+    return arr;
 }
 
 //Напишите функцию, считающую сумму чисел до заданного используя цикл
 function sumTo(n) {
-    let sum=0;
-    
-        for(let i=1; i<=n; i++)
-        {
-            sum+=i;
-        }
-        
-        
+    let sum = 0;
+    for (let i = 0; i <= n; i++) sum += i;
     return sum;
 }
 
 //Напишите функцию, считающую сумму чисел до заданного используя рекурсию
 function recSumTo(n) {
-    if(n===0){
-        return 0;
-    }
-    else{
-        
-        return n + recSumTo(n-1);
-    }
+    if (n === 0) return 0;
+    else return n + recSumTo(n - 1);
 }
 
 //Напишите функцию, считающую факториал заданного числа
 function factorial(n) {
-    let fact=1;
-    for(let i=1;i<=n;i++){
-        fact*=i;
-    }
-    return fact;
+    if (n === 0) return 1;
+    else return n * factorial(n - 1);
 }
 
 //Напишите функцию, которая определяет, является ли число двойкой, возведенной в степень
 function isBinary(n) {
-    if(n===0) return false;
-    else if(!(n&(n-1))){
-        return true;
-    }
+    if (n === 0) return false;
+    else if ((n & (n - 1)) === 0) return true;
     else return false;
 }
 
 //Напишите функцию, которая находит N-е число Фибоначчи
 function fibonacci(n) {
-    if(n==0) return 0;
-    else if(n==1) return 1;
-    else if(n>=2){
-        let prev=1;
-        let prevprev=0;
-        for(let i=2; i<=n;i++){
-            let next=prev+prevprev;
-            prevprev=prev;
-            prev=next;
+    if (n < 2) return n;
+    else {
+        let n2 = 1;
+        let n1 = 0;
+        for (let i = 2; i <= n; i++) {
+            let next = n2 + n1;
+            n1 = n2;
+            n2 = next;
         }
-        return prev;
+        return n2;
     }
 }
 
@@ -85,16 +64,14 @@ function fibonacci(n) {
  * console.log(sumFn(3)) - 18
  */
 function getOperationFn(initialValue, operatorFn) {
-    let a =initialValue;
-    return (b)=>{
-        if(typeof(operatorFn)!== 'function'){
+    let a = initialValue;
+    return (b) => {
+        if (typeof operatorFn !== 'function') return a;
+        else {
+            a = operatorFn(a, b);
             return a;
         }
-        else{
-            a= operatorFn(a,b);
-            return a;
-        }
-    }
+    };
 }
 
 /**
@@ -114,13 +91,13 @@ function getOperationFn(initialValue, operatorFn) {
  * console.log(generator()); // 9
  */
 function sequence(start, step) {
-    if(start==undefined) start=0;
-    if(step==undefined) step=1;
-    let a=start-step;
-    return function generator(){
-        a+=step;
-        return a;
-    }
+    if (start == undefined) start = 0;
+    if (step == undefined) step = 1;
+    let n = start - step;
+    return function generator() {
+        n += step;
+        return n;
+    };
 }
 
 /**
@@ -139,27 +116,23 @@ function sequence(start, step) {
  */
 function deepEqual(firstObject, secondObject) {
     if (firstObject === secondObject) return true;
-
-    else if ((typeof firstObject == "object") && (typeof secondObject == "object")) {
-        
-        if (Object.keys(firstObject).length == Object.keys(secondObject).length){
-
+    else if (
+        typeof firstObject == 'object' &&
+        typeof secondObject == 'object'
+    ) {
+        if (
+            Object.keys(firstObject).length == Object.keys(secondObject).length
+        ) {
             for (let i in firstObject) {
-
-                if (secondObject.hasOwnProperty(i)){  
-                    if (! deepEqual(firstObject[i], secondObject[i])) return false;
-                
-                }
-
-                else return false;
-                
+                if (secondObject.hasOwnProperty(i)) {
+                    if (!deepEqual(firstObject[i], secondObject[i]))
+                        return false;
+                } else return false;
             }
-        
             return true;
         }
     }
     return false;
-        
 }
 
 module.exports = {
