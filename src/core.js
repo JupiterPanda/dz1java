@@ -115,7 +115,11 @@ function sequence(start, step) {
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
  */
 function deepEqual(firstObject, secondObject) {
-    if (firstObject === secondObject) return true;
+    if (
+        firstObject === secondObject ||
+        Number.isNaN(firstObject && Number.isNaN(secondObject))
+    )
+        return true;
     else if (
         typeof firstObject == 'object' &&
         typeof secondObject == 'object'
